@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hacklumina</title>
+    <link rel="stylesheet" href="/static/index.css">
+    <link rel="stylesheet" href="/static/dashboard.css">
+</head>
+<body>
+    <header>
+        <h1>Hacklumina Admin Dashboard</h1>
+        <nav>
+            <a href="/logout">Logout</a>
+        </nav>
+    </header>
+    <main>
+        <div class="card-container-grid">
+            <!-- to mailing lists -->
+            <div class="card" style="cursor: pointer;" onclick="window.location.href='/mailing-lists'">
+                <h2>Mailing Lists</h2>
+                <p>View and manage mailing lists</p>
+            </div>
+            <!-- to registrations -->
+            <div class="card" style="cursor: pointer;" onclick="window.location.href='/registrations'">
+                <h2>Registrations</h2>
+                <p>View and manage registrations</p>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

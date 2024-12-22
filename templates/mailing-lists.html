@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/index.css">
+    <link rel="stylesheet" href="/static/mailing-lists.css">
+    <title>Hacklumina Mailing Lists</title>
+</head>
+<body>
+    {% for list in lists %}
+    <div class="list card">
+        <h2>{{ list.name }}</h2>
+        <p>{{ list.address }}</p>
+        <span class="send-email-button" onclick="naviagteToSend(this)" data-address="{{list.address}}">Send Email</span>
+        <div class="members">
+            <h3>Subscribed</h3>
+            <ul>
+                {% for member in list.members %}
+                {% if member.subscribed %}
+                <li>
+                    <span>{{ member.address }}</span>
+                </li>
+                {% endif %}
+                {% endfor %}
+            </ul>
+        </div>
+        {% if list.members|selectattr('subscribed', 'equalto', False)|list %}
+            <div class="members">
+                <h3>Unsubscribed</h3>
+                <ul>
+                    {% for member in list.members %}
+                    {% if not member.subscribed %}
+                    <li>
+                        <span>{{ member.address }}</span>
+                    </li>
+                    {% endif %}
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+    </div>
+    {% endfor %}
+    <script>
+        function naviagteToSend(el) {
+            const addr = el.getAttribute("data-address");
+            window.location.href = `/send-email?to=${addr}&from=${addr}`;
+        }
+    </script>
+</body>
+</html>

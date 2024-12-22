@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrations</title>
+    <link rel="stylesheet" href="/static/index.css">
+    <link rel="stylesheet" href="/static/registrations.css">
+</head>
+<body>
+    <header>
+        <h1>Hacklumina Admin Dashboard</h1>
+        <nav>
+            <a href="/logout">Logout</a>
+        </nav>
+    </header>
+    <main>
+        <h1 class="animated">Registrations</h1>
+        <div class="controls animated">
+            <button id="toggle-filters" class="tiny-button animated">Toggle Filters</button>
+            <div id="filters-container" class="animated">
+                <div class="view-buttons">
+                    <button id="view-table" class="tiny-button animated">Table View</button>
+                    <button id="view-cards" class="tiny-button animated">Card View</button>
+                </div>
+                <div class="filters">
+                    <label class="checkbox-container animated">Pending
+                        <input type="checkbox" id="filter-pending" checked>
+                        <span class="checkmark"></span>
+                    </label>
+                    <label class="checkbox-container animated">Confirmed
+                        <input type="checkbox" id="filter-confirmed" checked>
+                        <span class="checkmark"></span>
+                    </label>
+                    <label class="checkbox-container animated">Cancelled
+                        <input type="checkbox" id="filter-cancelled" checked>
+                        <span class="checkmark"></span>
+                    </label>
+                </div>
+            </div>
+            <!-- <button id="nfc-checkin" class="tiny-button animated" onclick="window.location.href='/nfc-checkin'">NFC Check-in</button> -->
+        </div>
+        <div id="registrations-table" class="view animated">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Contact Number</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for registration in registrations %}
+                    <tr data-id="{{ registration.id }}" data-status="{{ registration.fields['Registration Status'] }}" class="animated">
+                        <td>{{ registration.fields['Participant Name'] }}</td>
+                        <td>{{ registration.fields['Email'] }}</td>
+                        <td>{{ registration.fields['Contact Number'] }}</td>
+                        <td>{{ registration.fields['Registration Status'] }}</td>
+                        <td><button class="change-status animated">Change Status</button></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div id="registrations-cards" class="view animated">
+            {% for registration in registrations %}
+            <div class="card animated" data-id="{{ registration.id }}" data-status="{{ registration.fields['Registration Status'] }}">
+                <h2>{{ registration.fields['Participant Name'] }}</h2>
+                <p>Email: {{ registration.fields['Email'] }}</p>
+                <p>Contact Number: {{ registration.fields['Contact Number'] }}</p>
+                <p>Status: {{ registration.fields['Registration Status'] }}</p>
+                <button class="change-status animated">Change Status</button>
+            </div>
+            {% endfor %}
+        </div>
+        <div id="status-modal" class="modal close animated">
+            <div class="modal-content animated">
+                <span class="close animated">&times;</span>
+                <h2>Change Registration Status</h2>
+                <form id="status-form">
+                    <div class="status-row">
+                        <label for="status">Status:</label>
+                        <div style="width: 100%;"></div>
+                        <div class="custom-select-wrapper">
+                            <div class="custom-select">
+                                <div class="custom-select-trigger">
+                                    <span id="selected-status">Pending</span>
+                                </div>
+                                <div class="custom-options">
+                                    <span class="custom-option" data-value="Pending">Pending</span>
+                                    <span class="custom-option" data-value="Confirmed">Confirmed</span>
+                                    <span class="custom-option" data-value="Cancelled">Cancelled</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <input type="hidden" id="status" name="status" value="Pending">
+                    <button type="submit" class="animated">Save</button>
+                </form>
+            </div>
+        </div>
+        <div id="nfc-modal" class="modal close animated">
+            <div class="modal-content animated">
+                <h2>Write NFC Tag</h2>
+                <p>Please tap the NFC card to write the Tag ID.</p>
+                <div id="nfc-modal-message">
+                    <div id="loadingSymbol"></div>
+                </div>
+            </div>
+        </div>
+        <input type="hidden" id="tag-id" name="tag-id" value="">
+        <script src="/static/registrations.js"></script>
+    </main>
+</body>
+</html>

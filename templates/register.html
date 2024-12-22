@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/index.css">
+    <link rel="stylesheet" href="/static/form.css">
+    <title>Hacklumina - Register</title>
+</head>
+<body>
+    <h1>Hacklumina - Register</h1>
+    <form id="registerForm">
+        <label for="participant_name">Participant Name:</label>
+        <input type="text" id="participant_name" name="participant_name" required><br>
+        
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required><br>
+        
+        <label for="contact_number">Contact Number:</label>
+        <input type="text" id="contact_number" name="contact_number" required><br>
+        
+        <label for="allergies">Allergies:</label>
+        <input type="text" id="allergies" name="allergies"><br>
+        
+        <label for="food_preferences">Food Preferences:</label>
+        <div class="custom-select-wrapper">
+            <div class="custom-select" id="food_preferences" name="food_preferences">
+                <div class="custom-select-trigger">Select Food Preferences</div>
+                <div class="custom-options">
+                    <span class="custom-option" data-value="Vegetarian">Vegetarian</span>
+                    <span class="custom-option" data-value="Non vegetarian">Non vegetarian</span>
+                    <span class="custom-option" data-value="Jain">Jain</span>
+                </div>
+            </div>
+        </div><br>
+        <label for="tshirt_size">T-Shirt Size:</label>
+        <div class="custom-select-wrapper">
+            <div class="custom-select" id="tshirt_size" name="tshirt_size">
+                <div class="custom-select-trigger">Select T-Shirt Size</div>
+                <div class="custom-options">
+                    <span class="custom-option" data-value="Extra Small">Extra Small</span>
+                    <span class="custom-option" data-value="Small">Small</span>
+                    <span class="custom-option" data-value="Medium">Medium</span>
+                    <span class="custom-option" data-value="Large">Large</span>
+                    <span class="custom-option" data-value="Extra Large">Extra Large</span>
+                </div>
+            </div>
+        </div><br>
+        
+
+        <input type="hidden" id="food_preferences_input" name="food_preferences" required>
+        <input type="hidden" id="tshirt_size_input" name="tshirt_size" required>
+        
+        <label for="emergency_contact_name">Emergency Contact Name:</label>
+        <input type="text" id="emergency_contact_name" name="emergency_contact_name" required><br>
+        
+        <label for="emergency_contact_email">Emergency Contact Email:</label>
+        <input type="email" id="emergency_contact_email" name="emergency_contact_email" required><br>
+        
+        <label for="emergency_contact_number">Emergency Contact Number:</label>
+        <input type="text" id="emergency_contact_number" name="emergency_contact_number" required><br>
+        
+        <button type="submit" id="submitBtn">Register</button>
+    </form>
+
+    <div id="loadingDialog">
+        <div id="loadingSymbol"></div>
+        <div id="loadingMessage"></div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const customSelects = document.querySelectorAll('.custom-select');
+            customSelects.forEach(select => {
+                const trigger = select.querySelector('.custom-select-trigger');
+                const options = select.querySelectorAll('.custom-option');
+                const hiddenInput = document.getElementById(select.id + '_input');
+
+                options.forEach(option => {
+                    option.addEventListener('click', function() {
+                        trigger.textContent = this.textContent;
+                        hiddenInput.value = this.getAttribute('data-value');
+                    });
+                });
+            });
+
+            const form = document.getElementById('registerForm');
+            const fields = [
+                'participant_name',
+                'email',
+                'contact_number',
+                'allergies',
+                'emergency_contact_name',
+                'emergency_contact_email',
+                'emergency_contact_number'
+            ];
+
+            fields.forEach(field => {
+                const input = document.getElementById(field);
+                const savedValue = localStorage.getItem(field);
+                if (savedValue) {
+                    input.value = savedValue;
+                }
+            });
+
+            const foodPreferences = localStorage.getItem('food_preferences');
+            if (foodPreferences) {
+                document.querySelector('#food_preferences .custom-select-trigger').textContent = foodPreferences;
+            }
+
+            const tshirtSize = localStorage.getItem('tshirt_size');
+            if (tshirtSize) {
+                document.querySelector('#tshirt_size .custom-select-trigger').textContent = tshirtSize;
+            }
+
+            form.addEventListener('input', event => {
+                const input = event.target;
+                if (fields.includes(input.id)) {
+                    localStorage.setItem(input.id, input.value);
+                }
+            });
+
+            document.querySelectorAll('.custom-option').forEach(option => {
+                option.addEventListener('click', () => {
+                    const select = option.closest('.custom-select');
+                    const trigger = select.querySelector('.custom-select-trigger');
+                    const value = option.getAttribute('data-value');
+                    localStorage.setItem(select.id, value);
+                });
+            });
+
+            document.querySelectorAll('.custom-select-wrapper').forEach(wrapper => {
+                const select = wrapper.querySelector('.custom-select');
+                const trigger = select.querySelector('.custom-select-trigger');
+                const options = select.querySelector('.custom-options');
+                trigger.addEventListener('click', () => {
+                    select.classList.toggle('open');
+                    if (select.classList.contains('open')) {
+                        options.style.display = 'flex';
+                        options.style.maxHeight = options.scrollHeight + 'px';
+                    } else {
+                        options.style.maxHeight = '0';
+                        options.addEventListener('transitionend', () => {
+                            if (!select.classList.contains('open')) {
+                                options.style.display = 'none';
+                            }
+                        }, { once: true });
+                    }
+                });
+    
+                options.querySelectorAll('.custom-option').forEach(option => {
+                    option.addEventListener('click', () => {
+                        trigger.textContent = option.textContent;
+                        select.classList.remove('open');
+                        options.style.maxHeight = '0';
+                        options.addEventListener('transitionend', () => {
+                            if (!select.classList.contains('open')) {
+                                options.style.display = 'none';
+                            }
+                        }, { once: true });
+                        const hiddenInput = document.createElement('input');
+                        hiddenInput.type = 'hidden';
+                        hiddenInput.name = select.id;
+                        hiddenInput.value = option.getAttribute('data-value');
+                        wrapper.appendChild(hiddenInput);
+                    });
+                });
+            });
+    
+            window.addEventListener('click', e => {
+                document.querySelectorAll('.custom-select').forEach(select => {
+                    if (!select.contains(e.target)) {
+                        select.classList.remove('open');
+                        const options = select.querySelector('.custom-options');
+                        options.style.maxHeight = '0';
+                        options.addEventListener('transitionend', () => {
+                            if (!select.classList.contains('open')) {
+                                options.style.display = 'none';
+                            }
+                        }, { once: true });
+                    }
+                });
+            });
+    
+            document.getElementById('registerForm').addEventListener('submit', function(event) {
+                if (!validateForm()) {
+                    event.preventDefault();
+                }
+            });
+        });
+
+        function validateForm() {
+            var isValid = true;
+            const fields = [
+                'participant_name',
+                'email',
+                'contact_number',
+                'emergency_contact_name',
+                'emergency_contact_email',
+                'emergency_contact_number'
+            ];
+
+            fields.forEach(field => {
+                const input = document.getElementById(field);
+                if (!input.value.trim()) {
+                    console.log("Field invalid: ", field);
+                    isValid = false;
+                    input.style.style.border = '2px solid #ff000087';
+                } else {
+                    input.style.borderColor = '';
+                }
+            });
+
+            const phoneFields = [
+                'contact_number',
+                'emergency_contact_number'
+            ];
+
+            phoneFields.forEach(field => {
+                const input = document.getElementById(field);
+                const phonePattern = /^(\+\d{1,2}\s?)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/;
+                let phoneNumber = input.value.trim();
+                if (phoneNumber.startsWith('0')) {
+                    phoneNumber = phoneNumber.substring(1);
+                }
+                if (!phonePattern.test(phoneNumber)) {
+                    isValid = false;
+                    console.log("Field invalid: ", field);
+                    input.style.style.border = '2px solid #ff000087';
+                } else {
+                    input.style.borderColor = '';
+                }
+            });
+
+            const foodPreferences = document.querySelector('#food_preferences .custom-select-trigger').textContent.trim();
+            const tshirtSize = document.querySelector('#tshirt_size .custom-select-trigger').textContent.trim();
+
+            if (foodPreferences === 'Select Food Preferences') {
+                isValid = false;
+                document.querySelector('#food_preferences .custom-select-trigger').parentElement.parentElement.style.border = '2px solid #ff000087'
+            } else {
+                document.querySelector('#food_preferences .custom-select-trigger').style.borderColor = '';
+            }
+
+            if (tshirtSize === 'Select T-Shirt Size') {
+                isValid = false;
+                document.querySelector('#tshirt_size .custom-select-trigger').parentElement.parentElement.style.border = '2px solid #ff000087'
+            } else {
+                document.querySelector('#tshirt_size .custom-select-trigger').style.borderColor = '';
+            }
+
+            return isValid;
+        }
+        
+        const form = document.getElementById('registerForm');
+        form.addEventListener('submit', async (event) => {
+                event.preventDefault();
+                if (!validateForm()) {
+                    return;
+                }
+                const formData = new FormData(form);
+                const data = {};
+                formData.forEach((value, key) => {
+                    data[key] = value;
+                });
+
+                const foodPreferences = localStorage.getItem('food_preferences');
+                if (foodPreferences) {
+                    data['food_preferences'] = foodPreferences;
+                }
+
+                const tshirtSize = localStorage.getItem('tshirt_size');
+                if (tshirtSize) {
+                    data['tshirt_size'] = tshirtSize;
+                }
+
+                try {
+                    document.getElementById('loadingDialog').classList.add('show');
+                    document.getElementById('loadingMessage').innerText = 'Submitting...';
+
+                    const response = await fetch('/register', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(data)
+                    });
+
+                    if (response.ok) {
+                        document.getElementById('loadingSymbol').classList.add('done')
+                        document.getElementById('loadingMessage').innerText = 'Submitted!';
+                        localStorage.clear();
+                        form.reset();
+                        document.querySelector('#food_preferences .custom-select-trigger').textContent = 'Select Food Preferences';
+                        document.querySelector('#tshirt_size .custom-select-trigger').textContent = 'Select T-Shirt Size';
+                        document.addEventListener('click', function(event) {
+                            window.location.href = '/register';
+                        });
+                    } else {
+                        document.getElementById('loadingMessage').innerText = 'Registration failed. Please try again.';
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    document.getElementById('loadingMessage').innerText = 'An error occurred. Please try again.';
+                }
+            });
+        document.addEventListener('click', function(event) {
+            const dialog = document.getElementById('loadingDialog');
+            if (!dialog.contains(event.target)) {
+                dialog.classList.remove('show');
+            }
+        });
+    </script>
+</body>
+</html>

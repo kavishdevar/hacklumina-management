@@ -1,0 +1,479 @@
+body {
+    width: 100%;
+    max-width: none !important;
+    margin: 0;
+}
+
+.view {
+    display: none;
+}
+
+table {
+    box-sizing: border-box;
+}
+
+#registrations-table {
+    display: block;
+    background-color: #1e1e1e;
+    border-radius: 12px;
+    padding: 1rem;
+    box-shadow: 0 0 20px 10px #19191978;
+    animation: fadeIn 0.5s ease-in-out;
+    overflow-x: auto; /* Add this line */
+}
+
+#registrations-cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    /* Ensure table stays full width */
+    min-width: 100%; /* Add this line */
+}
+
+th, td {
+    border: 1px solid #333;
+    padding: 0.75rem;
+    text-align: left;
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+td:last-child {
+    text-align: right;
+}
+
+.card {
+    background-color: #191919;
+    border-radius: 12px;
+    padding: 1rem;
+    margin: 0.5rem 0;
+    transition: all 0.2s ease-in-out;
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+.card:hover {
+    box-shadow: 0 0 48px 16px #00000082;
+    transform: scale(1.01);
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+.modal-content {
+    background-color: #1919199c;
+    backdrop-filter: blur(16px);
+    padding: 20px;
+    border-radius: 12px;
+    border: 1px solid #434343;
+    box-shadow: 0 0 10px rgb(0 0 0 / 80%);
+    width: 80%;
+    max-width: 500px;
+    cursor: default;
+    animation: fadeIn 0.5s ease-in-out;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.close {
+    display: none;
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+.close:hover,
+.close:focus {
+    color: white;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.controls {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+.controls .tiny-button {
+    align-self: flex-start;
+}
+
+.view-buttons {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.tiny-button {
+    background-color: var(--primary);
+    border: none;
+    color: #fff;
+    font-size: 0.75rem;
+    padding: 0.25rem 0.5rem;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+    animation: fadeIn 0.5s ease-in-out;
+    min-height: 32px;
+    max-width: 100px;
+    box-sizing: border-box;
+}
+
+.tiny-button:hover {
+    background-color: #007bff;
+}
+
+.filters {
+    display: flex;
+    gap: 1rem;
+    animation: fadeIn 0.5s ease-in-out;
+    margin: 0.5rem 0;
+}
+
+.filters .tiny-button {
+    flex: 1;
+}
+.filters label {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    color: #fff;
+    font-size: 0.875rem;
+    cursor: pointer;
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+.checkbox-container {
+    display: flex;
+    align-items: center;
+    position: relative;
+    padding-left: 32px;
+    cursor: pointer;
+    font-size: 0.875rem;
+    user-select: none;
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+.checkbox-container input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+.checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 24px;
+    width: 24px;
+    background-color: #ccc;
+    border-radius: 4px;
+}
+
+.checkbox-container input:checked ~ .checkmark {
+    background-color: var(--primary);
+}
+
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+.checkbox-container input:checked ~ .checkmark:after {
+    display: block;
+}
+
+.checkbox-container .checkmark:after {
+    left: 52%;
+    top: 43%;
+    width: 6px;
+    height: 12px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.custom-select-wrapper {
+    position: relative;
+    display: inline-block;
+    width: 300px !important;
+    border-radius: 12px;
+    background-color: #353535 !important;
+}
+
+.custom-select {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    background-color: #353535;
+    border-radius: 12px;
+    cursor: pointer;
+    color: #fff;
+    font-size: 1rem;
+    width: auto;
+    box-sizing: border-box;
+    margin: 0.5rem 0;
+    padding: 0;
+}
+
+.custom-select-trigger {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 4px;
+}
+
+.custom-options {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    right: 0;
+    background-color: #292929ab;
+    backdrop-filter: blur(16px);
+    border-radius: 12px;
+    box-shadow: 0px 0 20px 0px rgb(0 0 0 / 75%);
+    border: 1px solid #333;
+    display: none;
+    flex-direction: column;
+    z-index: 2;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
+    margin: 0 -5px;
+    opacity: 0;
+}
+
+.custom-option {
+    padding: 1rem;
+    cursor: pointer;
+}
+
+.custom-option:hover {
+    background-color: #48484887;
+}
+
+.custom-select.open .custom-options {
+    display: flex;
+    max-height: 200px;
+    opacity: 1;
+}
+
+#status-form {
+    width: 100%;
+}
+
+.status-row {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    width: 100%;
+}
+
+.animated {
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+.fade-out {
+    animation: fadeOut 0.3s ease-in-out;
+}
+
+#selected-status {
+    width: 100%;
+    margin-left: 8px;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+}
+
+button {
+    background-color: #353535;
+    border: none;
+    color: #fff;
+    font-size: 1rem;
+    padding: 0.75rem;
+    border-radius: 12px;
+    width: 100%;
+    margin: 0.5rem 0;
+    cursor: pointer;
+}
+
+#filters-container {
+    overflow: hidden;
+    max-height: 0;
+    width: 100%;
+    box-sizing: border-box;
+    background: #191919;
+    border-radius: 12px;
+    transition: max-height 0.3s ease-in-out;
+    div {
+        margin: 1.25rem !important;
+    }
+}
+
+#filters-container.open {
+    max-height: 500px;
+}
+
+#filters-container .tiny-button {
+    background-color: #7474743b;
+    
+}
+
+#filters-container .checkmark {
+    background-color: #7474743b;
+}
+
+#nfc-modal-message {
+    margin-top: 1rem;
+    color: #fff;
+    font-size: 1rem;
+    text-align: center;
+}
+
+#loadingSymbol {
+    width: 4rem;
+    height: 4rem;
+    border: 4px solid #ffffff33;
+    border-top: 6px solid var(--primary);
+    border-radius: 50%;
+    animation: spin 1s ease-in-out infinite;
+}
+
+#loadingSymbol.done {
+    animation: none;
+    border: none;
+    position: relative;
+    width: 4rem;
+    height: 4rem;
+    background-color: green;
+    border-radius: 50%;
+}
+
+#loadingSymbol.done::before {
+    content: '';
+    position: absolute;
+    top: 43%;
+    left: 51.5%;
+    width: 1rem;
+    height: 2rem;
+    border: solid white;
+    border-width: 0 0.4rem 0.4rem 0;
+    transform: translate(-50%, -50%) rotate(45deg);
+    opacity: 0;
+    animation: drawCheckmark 0.5s ease-in-out forwards;
+}
+
+@keyframes drawCheckmark {
+    0% {
+        width: 0;
+        height: 0;
+        opacity: 1;
+    }
+    50% {
+        width: 1rem;
+        height: 0;
+        opacity: 1;
+    }
+    100% {
+        width: 1rem;
+        height: 2rem;
+        opacity: 1;
+    }
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@media (max-width: 768px) {
+    .controls {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .view-buttons {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .filters {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .filters label {
+        width: 100%;
+    }
+
+    table {
+        font-size: 0.875rem;
+    }
+
+    th, td {
+        padding: 0.5rem;
+    }
+
+    .card {
+        width: 100%;
+    }
+
+    .modal-content {
+        width: 90%;
+    }
+
+    .custom-select-wrapper {
+        width: 100% !important;
+    }
+}

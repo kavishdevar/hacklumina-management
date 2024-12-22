@@ -1,0 +1,114 @@
+body {
+    width: 80%;
+    max-width: 100%;
+    margin: 24px;
+    padding: 2rem;
+    height: 100vh;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    padding: 1rem;
+}
+
+input {
+    background-color: #191919;
+    border: none;
+    color: #fff;
+    font-size: 1rem;
+    padding: 0.75rem;
+    border-radius: 12px;
+    width: 100%;
+    margin: 0.1rem 0;
+    box-shadow: 0 0 20px 10px #19191978;
+}
+
+input:focus {
+    outline: none;
+}
+
+button {
+    background-color: #191919;
+    border: none;
+    color: #fff;
+    font-size: 1.25rem;
+    padding: 0.5rem;
+    border-radius: 12px;
+    width: calc(100% + 16px);
+    margin: 0.5rem 0;
+    box-shadow: 0 0 20px 10px #19191978;
+}
+#editor {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 1rem;
+}
+textarea {
+    background-color: #191919;
+    border: none;
+    color: #fff;
+    font-size: 1rem;
+    padding: 0.5rem;
+    max-height: 80dvh;
+    border-radius: 12px;
+    margin: 0.5rem 0;
+    font-family: monospace;
+    height: 75dvh;
+    box-shadow: 0 0 20px 10px #19191978;
+    resize: horizontal;
+    width: 100%;
+}
+
+textarea:focus {
+    outline: none;
+}
+
+#preview {
+    border: none;
+    background-color: white;
+    color: #fff;
+    border-radius: 12px;
+    margin: 0.5rem 0;
+    max-height: 80dvh;
+    overflow: scroll;
+    box-shadow: 0 0 20px 10px #19191978;
+    resize: horizontal;
+    height: 75dvh;
+    max-width: none;
+    width: 100%;
+}
+
+@media (max-width: 768px) {
+    body {
+        width: 100%;
+        margin: 0;
+    }
+    form {
+        padding: 0.5rem;
+    }
+    input {
+        padding: 0.5rem;
+    }
+    button {
+        padding: 0.25rem;
+    }
+    textarea {
+        padding: 0.25rem;
+        width: 100%;
+        resize: both;
+        height: 35vh;
+    }
+    #preview {
+        padding: 0.25rem;
+        width: 100%;
+        resize: both;
+        height: 35vh;
+    }
+    #editor {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+}

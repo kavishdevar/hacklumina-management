@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/index.css">
+    <link rel="stylesheet" href="/static/send-email.css">
+    <title>Hacklumina - Emails</title>
+</head>
+<body>
+    <header>
+        <h1>Hacklumina Admin Dashboard</h1>
+        <nav>
+            <a href="/logout">Logout</a>
+        </nav>
+    </header>
+    <main>
+        <form method="post">
+            <label for="from">From:</label>
+            <input type="email" id="from" name="from" required value="{{from_addr}}"><br>
+            <label for="to">To:</label>
+            <input type="email" id="to" name="to" required value="{{to_addr}}"><br>
+            <label for="subject">Subject:</label>
+            <input type="text" id="subject" name="subject" required><br>
+            <label for="content">Content (html):</label><br>
+            <div id="editor">
+                <textarea id="content" name="content" rows="10" cols="50" required></textarea><br>
+                <iframe id="preview"></iframe>
+            </div>
+            <input type="hidden" name="html-content" value="" id="html-content">
+            <button type="submit">Send</button>
+        </form>
+        <p>{{error}}</p>
+    </main>
+</body>
+<script>
+    content = document.getElementById("content");
+    let xhr = new XMLHttpRequest();
+    content.addEventListener("input", () => {
+        xhr.open("GET", "/email-template-preview", true);
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                let response = xhr.responseText;
+                document.getElementById("preview").contentWindow.document.open();
+                document.getElementById("preview").contentWindow.document.write(response.replace("\\{\\{content\\}\\}", content.value));
+                document.getElementById("preview").contentWindow.document.close();
+                document.getElementById("html-content").value = response.replace("\\{\\{content\\}\\}", content.value);
+            }
+        }
+        xhr.send();
+    })
+    xhr.open("GET", "/email-template-preview", true);
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            let response = xhr.responseText;
+            console.log(response);
+            document.getElementById("preview").contentWindow.document.open();
+            document.getElementById("preview").contentWindow.document.write(response.replace("\\{\\{content\\}\\}", content.value));
+            document.getElementById("preview").contentWindow.document.close();
+        }
+    }
+    xhr.send();
+</script>
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NFC Check-in</title>
+    <link rel="stylesheet" href="/static/index.css">
+    <link rel="stylesheet" href="/static/nfc-checkin.css">
+</head>
+<body>
+    <header>
+        <h1>Hacklumina NFC Check-in</h1>
+    </header>
+    <main>
+        <div class="field-selection">
+            <label for="field">Select Field:</label>
+            <select id="field">
+                <option value="Attendance">Attendance</option>
+                <option value="Breakfast Day 1">Breakfast Day 1</option>
+            </select>
+        </div>
+        <div class="nfc-reader">
+            <p>Tap your NFC card to check-in</p>
+            <button id="start-scan">Start NFC Scan</button>
+        </div>
+    </main>
+    <div id="nfc-modal" class="modal close animated">
+        <div class="modal-content animated">
+            <span class="close animated">&times;</span>
+            <h2>NFC Check-in Status</h2>
+            <p id="nfc-modal-message"></p>
+            <button id="nfc-modal-close" class="animated">Close</button>
+        </div>
+    </div>
+    <script src="/static/nfc-checkin.js"></script>
+</body>
+</html>
