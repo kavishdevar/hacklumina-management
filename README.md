@@ -3,6 +3,41 @@
 ## Description
 Hacklumina Management System is a web-based application designed to manage various aspects of the Hacklumina event, including registrations, mailing lists, and NFC check-ins.
 
+## Installation
+1. Clone the repository:
+    ```sh
+    git clone https://github.com/kavishdevar/hacklumina-management.git
+    ```
+2. Navigate to the project directory:
+    ```sh
+    cd hacklumina-management
+    ```
+3. Create a virtual environment:
+    ```sh
+    python -m venv venv
+    ```
+4. Activate the virtual environment:
+    - On Windows:
+        ```sh
+        venv\scripts\activate
+        ```
+    - On macOS/Linux:
+        ```sh
+        source venv/bin/activate
+        ```
+5. Install the required dependencies:
+    ```sh
+    pip install -r requirements.txt
+    ```
+6. Create a [.env](http://_vscodecontentref_/1) file and add the necessary environment variables:
+    ```env
+    MAILGUN_API_KEY=your-mailgun-api-key
+    MAILGUN_DOMAIN=your-mailgun-domain
+    LIST_ADDRESS=your-mailing-list-address
+    PASSWORD=your-password-hash
+    AIRTABLE_PAT=your-airtable-pat
+    ```
+
 ## Usage
 1. Run the application:
     ```sh
@@ -16,24 +51,33 @@ Hacklumina Management System is a web-based application designed to manage vario
 - **Route**: `/`
 - **Method**: `GET`
 - **Description**: Displays the admin dashboard. Redirects to the login page if the user is not authenticated.
+- **HTML File**: [dashboard.html](http://_vscodecontentref_/2)
+- **Screenshot**:
+    !Dashboard
 
 ### Login
 - **Route**: `/login`
 - **Method**: `GET`, `POST`
 - **Description**: Handles user login. Sets a cookie if the password is correct.
-- **HTML File**: [`templates/login.html`](templates/login.html)
+- **HTML File**: [login.html](http://_vscodecontentref_/3)
+- **Screenshot**:
+    !Login
 
 ### Email Template Preview
 - **Route**: `/email-template-preview`
 - **Method**: `GET`
 - **Description**: Returns a preview of the email template with placeholder content.
-- **HTML File**: [`templates/email-template.html`](templates/email-template.html)
+- **HTML File**: [email-template.html](http://_vscodecontentref_/4)
+- **Screenshot**:
+    ![Email Template Preview](screenshots/email-template-preview.png)
 
 ### Send Email
 - **Route**: `/send-email`
 - **Method**: `GET`, `POST`
 - **Description**: Handles sending emails. Uses Mailgun API to send emails.
-- **HTML File**: [`templates/send-email.html`](templates/send-email.html)
+- **HTML File**: [send-email.html](http://_vscodecontentref_/5)
+- **Screenshot**:
+    ![Send Email](screenshots/send-email.png)
 
 ### Subscribe to Mailing List
 - **Route**: `/subscribe`
@@ -44,13 +88,17 @@ Hacklumina Management System is a web-based application designed to manage vario
 - **Route**: `/mailing-lists`
 - **Method**: `GET`
 - **Description**: Displays mailing lists and their members. Uses Mailgun API to fetch data.
-- **HTML File**: [`templates/mailing-lists.html`](templates/mailing-lists.html)
+- **HTML File**: [mailing-lists.html](http://_vscodecontentref_/6)
+- **Screenshot**:
+    ![Mailing Lists](screenshots/mailing-lists.png)
 
 ### Form
 - **Route**: `/form/<id>`
 - **Method**: `GET`
 - **Description**: Displays a form based on the provided ID.
-- **HTML File**: [`templates/form.html`](templates/form.html)
+- **HTML File**: [form.html](http://_vscodecontentref_/7)
+- **Screenshot**:
+    !Form
 
 ### Form Submission
 - **Route**: `/form-submission`
@@ -61,13 +109,17 @@ Hacklumina Management System is a web-based application designed to manage vario
 - **Route**: `/register`
 - **Method**: `GET`, `POST`
 - **Description**: Handles participant registration. Stores data in Airtable and sends confirmation emails.
-- **HTML File**: [`templates/register.html`](templates/register.html)
+- **HTML File**: [register.html](http://_vscodecontentref_/8)
+- **Screenshot**:
+    !Register
 
 ### Registrations
 - **Route**: `/registrations`
 - **Method**: `GET`
 - **Description**: Displays a list of registrations. Uses Airtable API to fetch data.
-- **HTML File**: [`templates/registrations.html`](templates/registrations.html)
+- **HTML File**: [registrations.html](http://_vscodecontentref_/9)
+- **Screenshot**:
+    !Registrations
 
 ### Update Registration Status
 - **Route**: `/update-registration-status/<id>`
@@ -78,9 +130,10 @@ Hacklumina Management System is a web-based application designed to manage vario
 - **Route**: `/nfc-checkin`
 - **Method**: `GET`, `POST`
 - **Description**: Handles NFC check-ins. Uses Airtable API to update check-in status.
-- **HTML File**: [`templates/nfc-checkin.html`](templates/nfc-checkin.html)
+- **HTML File**: [nfc-checkin.html](http://_vscodecontentref_/10)
 - **Screenshot**:
     ![NFC Check-in](screenshots/nfc-checkin.png)
+
 ### Logout
 - **Route**: `/logout`
 - **Method**: `GET`
@@ -108,6 +161,23 @@ Hacklumina Management System is a web-based application designed to manage vario
 - **nfc-checkin.css**: Styles for the NFC check-in page.
 - **registrations.js**: JavaScript for the registrations page.
 - **nfc-checkin.js**: JavaScript for the NFC check-in page.
+
+## Android App
+The Hacklumina Management System also includes an Android app for managing NFC check-ins.
+
+### Features
+- **NFC Check-in**: Allows users to check-in participants using NFC tags.
+- **Registrations**: View and manage participant registrations.
+
+### Installation
+1. Open the project in Android Studio.
+2. Build and run the app on an Android device.
+
+### Screenshots
+- **NFC Check-in**:
+    ![NFC Check-in](screenshots/android-nfc-checkin.png)
+- **Registrations**:
+    ![Registrations](screenshots/android-registrations.png)
 
 ## Contact
 For any inquiries, please contact the project maintainer at [mail@kavishdevar.me].
