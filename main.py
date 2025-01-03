@@ -290,7 +290,7 @@ def registrations():
 
 @app.route("/update-registration-status/<id>", methods=["POST"])
 def update_registration_status(id):
-    if request.cookies.get("password") != PASSWORD:
+    if request.cookies.get("password") != PASSWORD and request.headers.get("password") != PASSWORD:
         return jsonify({"success": False, "error": "Unauthorized"}), 403
     print(request.json)
     status = request.json.get("status")
