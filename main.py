@@ -35,7 +35,7 @@ def email_template_preview():
 import threading
 
 def send_email_async(from_addr, to_addr, subject, content):
-    if to_addr == "announcements-dev@hacklumina.tech":
+    if to_addr == "announcements-dev@hacklumina.tech" or to_addr == "announcements@hacklumina.tech":
         response = requests.get(
             f"https://api.eu.mailgun.net/v3/lists/{LIST_ADDRESS}/members",
             auth=("api", MAILGUN_API_KEY)
@@ -116,7 +116,7 @@ def subscribe():
             return jsonify({"error": "Failed to add email to the mailing list."}), response.status_code
     except Exception as e:
         return jsonify({"error": f"Internal server error: {str(e)}"}), 500
-    
+
 @app.route("/mailing-lists")
 def mailing_lists():
     if request.cookies.get("password") != PASSWORD:
@@ -298,7 +298,7 @@ def update_registration_status(id):
 
     table = api.bases()[0].table("Participants")
     checkins_table = api.bases()[0].table("Check-ins")
-    
+
     try:
         if status == "Confirmed":
             table.update(id, {"Registration Status": status})
