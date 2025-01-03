@@ -2,7 +2,7 @@
 
 ## Demo Video
 
-<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/_g0AEOZ1Crc?si=jkEvVbo_LTCGM5we" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+[![Demo video thumbnail](http://img.youtube.com/vi/_g0AEOZ1Crc/0.jpg)](http://www.youtube.com/watch?v=_g0AEOZ1Crc "Hacklumina website demo")
 
 # Visitor's Website
 
