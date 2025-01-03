@@ -443,11 +443,6 @@ button {
         align-items: flex-start;
     }
 
-    .view-buttons {
-        width: 100%;
-        justify-content: space-between;
-    }
-
     .filters {
         flex-direction: column;
         width: 100%;

@@ -3,41 +3,6 @@
 ## Description
 Hacklumina Management System is a web-based application designed to manage various aspects of the Hacklumina event, including registrations, mailing lists, and NFC check-ins.
 
-## Installation
-1. Clone the repository:
-    ```sh
-    git clone https://github.com/kavishdevar/hacklumina-management.git
-    ```
-2. Navigate to the project directory:
-    ```sh
-    cd hacklumina-management
-    ```
-3. Create a virtual environment:
-    ```sh
-    python -m venv venv
-    ```
-4. Activate the virtual environment:
-    - On Windows:
-        ```sh
-        venv\scripts\activate
-        ```
-    - On macOS/Linux:
-        ```sh
-        source venv/bin/activate
-        ```
-5. Install the required dependencies:
-    ```sh
-    pip install -r requirements.txt
-    ```
-6. Create a `.env` file and add the necessary environment variables:
-    ```env
-    MAILGUN_API_KEY=your-mailgun-api-key
-    MAILGUN_DOMAIN=your-mailgun-domain
-    LIST_ADDRESS=your-mailing-list-address
-    PASSWORD=your-password-hash
-    AIRTABLE_PAT=your-airtable-pat
-    ```
-
 ## Usage
 1. Run the application:
     ```sh
@@ -45,33 +10,109 @@ Hacklumina Management System is a web-based application designed to manage vario
     ```
 2. Open your web browser and navigate to `http://localhost:8080`.
 
-### Features
-- **Dashboard**: View and manage different sections of the event.
-- **Registrations**: View, manage, and update participant registrations.
-- **Mailing Lists**: View and manage mailing lists, send emails to participants.
-- **NFC Check-in**: Check-in participants using NFC tags.
+## Features
 
-## Contributing
-1. Fork the repository.
-2. Create a new branch:
-    ```sh
-    git checkout -b feature-branch
-    ```
-3. Make your changes and commit them:
-    ```sh
-    git commit -m "Description of changes"
-    ```
-4. Push to the branch:
-    ```sh
-    git push origin feature-branch
-    ```
-5. Open a pull request.
+### Dashboard
+- **Route**: `/`
+- **Method**: `GET`
+- **Description**: Displays the admin dashboard. Redirects to the login page if the user is not authenticated.
+
+### Login
+- **Route**: `/login`
+- **Method**: `GET`, `POST`
+- **Description**: Handles user login. Sets a cookie if the password is correct.
+- **HTML File**: [`templates/login.html`](templates/login.html)
+
+### Email Template Preview
+- **Route**: `/email-template-preview`
+- **Method**: `GET`
+- **Description**: Returns a preview of the email template with placeholder content.
+- **HTML File**: [`templates/email-template.html`](templates/email-template.html)
+
+### Send Email
+- **Route**: `/send-email`
+- **Method**: `GET`, `POST`
+- **Description**: Handles sending emails. Uses Mailgun API to send emails.
+- **HTML File**: [`templates/send-email.html`](templates/send-email.html)
+
+### Subscribe to Mailing List
+- **Route**: `/subscribe`
+- **Method**: `POST`
+- **Description**: Adds an email to the mailing list using Mailgun API.
+
+### Mailing Lists
+- **Route**: `/mailing-lists`
+- **Method**: `GET`
+- **Description**: Displays mailing lists and their members. Uses Mailgun API to fetch data.
+- **HTML File**: [`templates/mailing-lists.html`](templates/mailing-lists.html)
+
+### Form
+- **Route**: `/form/<id>`
+- **Method**: `GET`
+- **Description**: Displays a form based on the provided ID.
+- **HTML File**: [`templates/form.html`](templates/form.html)
+
+### Form Submission
+- **Route**: `/form-submission`
+- **Method**: `POST`
+- **Description**: Handles form submissions and sends an email with the form data.
+
+### Register
+- **Route**: `/register`
+- **Method**: `GET`, `POST`
+- **Description**: Handles participant registration. Stores data in Airtable and sends confirmation emails.
+- **HTML File**: [`templates/register.html`](templates/register.html)
+
+### Registrations
+- **Route**: `/registrations`
+- **Method**: `GET`
+- **Description**: Displays a list of registrations. Uses Airtable API to fetch data.
+- **HTML File**: [`templates/registrations.html`](templates/registrations.html)
+
+### Update Registration Status
+- **Route**: `/update-registration-status/<id>`
+- **Method**: `POST`
+- **Description**: Updates the registration status of a participant. Uses Airtable API to update data.
+
+### NFC Check-in
+- **Route**: `/nfc-checkin`
+- **Method**: `GET`, `POST`
+- **Description**: Handles NFC check-ins. Uses Airtable API to update check-in status.
+- **HTML File**: [`templates/nfc-checkin.html`](templates/nfc-checkin.html)
+- **Screenshot**:
+    ![NFC Check-in](screenshots/nfc-checkin.png)
+### Logout
+- **Route**: `/logout`
+- **Method**: `GET`
+- **Description**: Logs out the user by deleting the authentication cookie.
+
+## HTML Files
+- **login.html**: Login page.
+- **send-email.html**: Send email page.
+- **email-template.html**: Email template used for sending emails.
+- **dashboard.html**: Admin dashboard.
+- **mailing-lists.html**: Mailing lists page.
+- **form.html**: Form page.
+- **register.html**: Registration page.
+- **registrations.html**: Registrations page.
+- **nfc-checkin.html**: NFC check-in page.
+
+## Static Files
+- **login.css**: Styles for the login page.
+- **send-email.css**: Styles for the send email page.
+- **dashboard.css**: Styles for the dashboard page.
+- **mailing-lists.css**: Styles for the mailing lists page.
+- **index.css**: Common styles for the application.
+- **form.css**: Styles for the registration form.
+- **registrations.css**: Styles for the registrations page.
+- **nfc-checkin.css**: Styles for the NFC check-in page.
+- **registrations.js**: JavaScript for the registrations page.
+- **nfc-checkin.js**: JavaScript for the NFC check-in page.
 
 ## Contact
 For any inquiries, please contact the project maintainer at [mail@kavishdevar.me].
 
-# LICENSE
-
+## License
 Hacklumina's management system
 Copyright (C) 2024 Kavish Devar
 
