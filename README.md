@@ -1,6 +1,23 @@
+# Hacklumina '25 Websites
+
+## Demo Video
+
+<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/_g0AEOZ1Crc?si=jkEvVbo_LTCGM5we" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+# Visitor's Website
+
+The visitor's website for Hacklumina '25 provides information about the event, including schedules, highlights, and contact details. Visit it at [https://hacklumina.tech](https://hacklumina.tech)
+
+## Features
+- **Event Details**: Provides detailed information about the event, including the venue, time, and schedule.
+- **Highlights**: Lists the key highlights of the event, such as workshops, rewards, etc.
+- **Run of Show**: Displays the schedule for each day of the event.
+- **Sponsors**: Showcases the event sponsors.
+- **Contact Us**: Provides contact information for the event organizers.
+- **Sign Up for Updates**: Allows visitors to sign up for email updates about the event. This sends a POST request to the [Hacklumina Management System at `https://admin.hacklumina.tech/subscribe`](#subscribe-to-mailing-list)
+
 # Hacklumina Management System
 
-## Description
 Hacklumina Management System is a web-based application designed to manage various aspects of the Hacklumina event, including registrations, mailing lists, and NFC check-ins.
 
 ## Installation
@@ -29,7 +46,7 @@ Hacklumina Management System is a web-based application designed to manage vario
     ```sh
     pip install -r requirements.txt
     ```
-6. Create a [.env](http://_vscodecontentref_/1) file and add the necessary environment variables:
+6. Create a `.env` file and add the necessary environment variables:
     ```env
     MAILGUN_API_KEY=your-mailgun-api-key
     MAILGUN_DOMAIN=your-mailgun-domain
@@ -51,54 +68,36 @@ Hacklumina Management System is a web-based application designed to manage vario
 - **Route**: `/`
 - **Method**: `GET`
 - **Description**: Displays the admin dashboard. Redirects to the login page if the user is not authenticated.
-- **HTML File**: [dashboard.html](http://_vscodecontentref_/2)
-- **Screenshot**:
-    !Dashboard
 
 ### Login
 - **Route**: `/login`
 - **Method**: `GET`, `POST`
 - **Description**: Handles user login. Sets a cookie if the password is correct.
-- **HTML File**: [login.html](http://_vscodecontentref_/3)
-- **Screenshot**:
-    !Login
 
 ### Email Template Preview
 - **Route**: `/email-template-preview`
 - **Method**: `GET`
-- **Description**: Returns a preview of the email template with placeholder content.
-- **HTML File**: [email-template.html](http://_vscodecontentref_/4)
-- **Screenshot**:
-    ![Email Template Preview](screenshots/email-template-preview.png)
+- **Description**: Returns a preview of the email template with placeholder content. Used in `/send-email`.
 
 ### Send Email
 - **Route**: `/send-email`
 - **Method**: `GET`, `POST`
 - **Description**: Handles sending emails. Uses Mailgun API to send emails.
-- **HTML File**: [send-email.html](http://_vscodecontentref_/5)
-- **Screenshot**:
-    ![Send Email](screenshots/send-email.png)
 
 ### Subscribe to Mailing List
 - **Route**: `/subscribe`
 - **Method**: `POST`
-- **Description**: Adds an email to the mailing list using Mailgun API.
+- **Description**: Adds an email to the mailing list using Mailgun API. Used by the [main website](https://hacklumina.tech).
 
 ### Mailing Lists
 - **Route**: `/mailing-lists`
 - **Method**: `GET`
 - **Description**: Displays mailing lists and their members. Uses Mailgun API to fetch data.
-- **HTML File**: [mailing-lists.html](http://_vscodecontentref_/6)
-- **Screenshot**:
-    ![Mailing Lists](screenshots/mailing-lists.png)
 
 ### Form
-- **Route**: `/form/<id>`
+- **Route**: `/form/<fillout-id-or-custom-name-as-defined-in-main.py>`
 - **Method**: `GET`
-- **Description**: Displays a form based on the provided ID.
-- **HTML File**: [form.html](http://_vscodecontentref_/7)
-- **Screenshot**:
-    !Form
+- **Description**: Displays a form based on the provided ID or a custom name.
 
 ### Form Submission
 - **Route**: `/form-submission`
@@ -109,58 +108,26 @@ Hacklumina Management System is a web-based application designed to manage vario
 - **Route**: `/register`
 - **Method**: `GET`, `POST`
 - **Description**: Handles participant registration. Stores data in Airtable and sends confirmation emails.
-- **HTML File**: [register.html](http://_vscodecontentref_/8)
-- **Screenshot**:
-    !Register
 
 ### Registrations
 - **Route**: `/registrations`
 - **Method**: `GET`
-- **Description**: Displays a list of registrations. Uses Airtable API to fetch data.
-- **HTML File**: [registrations.html](http://_vscodecontentref_/9)
-- **Screenshot**:
-    !Registrations
+- **Description**: Displays a list of registrations, with filters. Allows updating registration status.
 
 ### Update Registration Status
 - **Route**: `/update-registration-status/<id>`
 - **Method**: `POST`
-- **Description**: Updates the registration status of a participant. Uses Airtable API to update data.
-
+- **Description**: Updates the registration status of a participant.
+- 
 ### NFC Check-in
 - **Route**: `/nfc-checkin`
 - **Method**: `GET`, `POST`
-- **Description**: Handles NFC check-ins. Uses Airtable API to update check-in status.
-- **HTML File**: [nfc-checkin.html](http://_vscodecontentref_/10)
-- **Screenshot**:
-    ![NFC Check-in](screenshots/nfc-checkin.png)
+- **Description**: Handles NFC check-ins.
 
 ### Logout
 - **Route**: `/logout`
 - **Method**: `GET`
 - **Description**: Logs out the user by deleting the authentication cookie.
-
-## HTML Files
-- **login.html**: Login page.
-- **send-email.html**: Send email page.
-- **email-template.html**: Email template used for sending emails.
-- **dashboard.html**: Admin dashboard.
-- **mailing-lists.html**: Mailing lists page.
-- **form.html**: Form page.
-- **register.html**: Registration page.
-- **registrations.html**: Registrations page.
-- **nfc-checkin.html**: NFC check-in page.
-
-## Static Files
-- **login.css**: Styles for the login page.
-- **send-email.css**: Styles for the send email page.
-- **dashboard.css**: Styles for the dashboard page.
-- **mailing-lists.css**: Styles for the mailing lists page.
-- **index.css**: Common styles for the application.
-- **form.css**: Styles for the registration form.
-- **registrations.css**: Styles for the registrations page.
-- **nfc-checkin.css**: Styles for the NFC check-in page.
-- **registrations.js**: JavaScript for the registrations page.
-- **nfc-checkin.js**: JavaScript for the NFC check-in page.
 
 ## Android App
 The Hacklumina Management System also includes an Android app for managing NFC check-ins.
@@ -172,15 +139,6 @@ The Hacklumina Management System also includes an Android app for managing NFC c
 ### Installation
 1. Open the project in Android Studio.
 2. Build and run the app on an Android device.
-
-### Screenshots
-- **NFC Check-in**:
-    ![NFC Check-in](screenshots/android-nfc-checkin.png)
-- **Registrations**:
-    ![Registrations](screenshots/android-registrations.png)
-
-## Contact
-For any inquiries, please contact the project maintainer at [mail@kavishdevar.me].
 
 ## License
 Hacklumina's management system

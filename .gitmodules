@@ -1,0 +1,3 @@
+[submodule "visitors-website"]
+	path = visitors-website
+	url = https://github.com/HackLumina/hacklumina-website
