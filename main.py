@@ -4,14 +4,17 @@ import json
 import hashlib
 import dotenv
 import os
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)
 
 dotenv.load_dotenv()
 MAILGUN_API_KEY = os.getenv("MAILGUN_API_KEY")
 MAILGUN_DOMAIN = os.getenv("MAILGUN_DOMAIN")
-LIST_ADDRESS = os.getenv("LIST_ADDRESS")
 PASSWORD = os.getenv("PASSWORD")
+botToken = os.getenv('BOT_TOKEN')
+channelID = os.getenv('CHANNEL_ID')
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -35,9 +38,16 @@ def email_template_preview():
 import threading
 
 def send_email_async(from_addr, to_addr, subject, content):
-    if to_addr == "announcements-dev@hacklumina.tech":
+    response = requests.get(
+        f"https://api.eu.mailgun.net/v3/lists",
+        auth=("api", MAILGUN_API_KEY)
+    )
+    mailing_lists = response.json().get("items", [])
+    is_mailing_list = any(mlist['address'] == to_addr for mlist in mailing_lists)
+
+    if is_mailing_list:
         response = requests.get(
-            f"https://api.eu.mailgun.net/v3/lists/{LIST_ADDRESS}/members",
+            f"https://api.eu.mailgun.net/v3/lists/{to_addr}/members",
             auth=("api", MAILGUN_API_KEY)
         )
         members = response.json().get("items", [])
@@ -66,7 +76,7 @@ def send_email_async(from_addr, to_addr, subject, content):
             f"https://api.eu.mailgun.net/v3/{MAILGUN_DOMAIN}/messages",
             auth=("api", MAILGUN_API_KEY),
             data={
-                "from": f"Hacklumina <{LIST_ADDRESS}>",
+                "from": f"Hacklumina <{from_addr}>",
                 "to": to_addr,
                 "subject": subject,
                 "html": content,
@@ -336,6 +346,50 @@ def nfc_checkin():
         except Exception as e:
             return jsonify({"success": False, "error": str(e)}), 500
     return render_template("nfc-checkin.html")
+
+@app.route("/contact-us", methods=['POST'])
+def send_message():
+    try:
+        data = request.get_json()
+        
+        if not data:
+            return jsonify({'error': 'No data provided'}), 400
+
+        name = data.get('name')
+        email = data.get('email')
+        msg = data.get('msg')
+        
+        if not name or not email or not msg:
+            return jsonify({'error': 'Please provide all the details'}), 400
+
+        group_id = os.getenv('GROUP_ID')
+
+        print(data)
+
+        message = {
+            "channel": channelID,
+            "text": f"Heads Up Team! You've got a new message from {name} ({email})\nMessage : {msg}\n\n<!subteam^{group_id}>"  # Ping the group
+        }
+
+        response = requests.post(
+            'https://slack.com/api/chat.postMessage',
+            headers={
+                'Authorization': f'Bearer {botToken}',
+                'Content-Type': 'application/json'
+            },
+            json=message
+        )
+
+        print("Slack API Response:", response.json())
+
+        if response.status_code == 200 and response.json().get('ok'):
+            return jsonify({'message': 'Message sent successfully'}), 200
+        else:
+            return jsonify({'error': 'Failed to send message to Slack', 'slack_response': response.json()}), 500
+    
+    except Exception as e:
+        print(f"Error: {e}")
+        return jsonify({'error': 'server error'}), 500
 
 @app.route("/logout")
 def logout():
