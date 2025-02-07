@@ -15,6 +15,7 @@ MAILGUN_DOMAIN = os.getenv("MAILGUN_DOMAIN")
 PASSWORD = os.getenv("PASSWORD")
 botToken = os.getenv('BOT_TOKEN')
 channelID = os.getenv('CHANNEL_ID')
+SLACK_WORKFLOW_URL = os.getenv('SLACK_WORKFLOW_URL')
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -362,22 +363,18 @@ def send_message():
         if not name or not email or not msg:
             return jsonify({'error': 'Please provide all the details'}), 400
 
-        group_id = os.getenv('GROUP_ID')
-
-        print(data)
-
-        message = {
-            "channel": channelID,
-            "text": f"Heads Up Team! You've got a new message from {name} ({email})\nMessage : {msg}\n\n<!subteam^{group_id}>"  # Ping the group
+        payload = {
+            "name": name,
+            "email": email,
+            "message": msg
         }
 
         response = requests.post(
-            'https://slack.com/api/chat.postMessage',
+            SLACK_WORKFLOW_URL,
             headers={
-                'Authorization': f'Bearer {botToken}',
                 'Content-Type': 'application/json'
             },
-            json=message
+            json=payload
         )
 
         print("Slack API Response:", response.json())
