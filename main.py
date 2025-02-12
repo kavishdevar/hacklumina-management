@@ -117,7 +117,7 @@ def subscribe():
 
     try:
         response = requests.post(
-            f"https://api.eu.mailgun.net/v3/lists/{LIST_ADDRESS}/members",
+            f"https://api.eu.mailgun.net/v3/lists/announcements@hacklumina.tech/members",
             auth=("api", MAILGUN_API_KEY),
             data={"address": email, "subscribed": "true"}
         )
